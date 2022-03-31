@@ -1,6 +1,7 @@
 const router = require('express').Router() //Router method
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 //REGISTER
 router.post('/register', async (req, res) => {
@@ -45,11 +46,18 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Password is not match' })
     }
 
-    //things that shouldnot be visible to the user	
-    const { password ,updatedAt, createdAt, ...others} = user._doc
+    //if password is match create a token//it will hide the info into the token
+    const accessToken = jwt.sign(
+      { _id: user._id, isAdmin: user.isAdmin },
+      process.env.TOKEN_SECRET,
+      { expiresIn: '10d' }, //after this days the token will be expired so we should login again
+    )
+
+    //things that shouldnot be visible to the user
+    const { password, ...others } = user._doc
 
     //if user is found and password is match return user
-    res.status(200).json(others)
+    res.status(200).json({...others, accessToken})
 
     //if error catch it and show error
   } catch (error) {
