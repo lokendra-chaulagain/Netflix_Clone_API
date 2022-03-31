@@ -45,8 +45,11 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ msg: 'Password is not match' })
     }
 
+    //things that shouldnot be visible to the user	
+    const { password ,updatedAt, createdAt, ...others} = user._doc
+
     //if user is found and password is match return user
-    res.status(200).json(user)
+    res.status(200).json(others)
 
     //if error catch it and show error
   } catch (error) {
