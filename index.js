@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
-const dotenv = require('dotenv').config() //import and config
+const dotenv = require('dotenv').config() 
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/users')
 
