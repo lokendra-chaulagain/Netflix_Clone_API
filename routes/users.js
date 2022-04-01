@@ -44,7 +44,6 @@ router.put('/:id', verify, async (req, res) => {
 router.delete('/:id', verify, async (req, res) => {
   //checking if  the user is owner/admin or not
   if (req.user.id === req.params.id || req.user.isAdmin) {
-    
     try {
       //delete the user
       await User.findByIdAndDelete(req.params.id)
@@ -60,8 +59,40 @@ router.delete('/:id', verify, async (req, res) => {
 })
 
 //GET A USER
+router.get('/find/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    res.status(200).json(user)
+
+    //we dont want to show all info only few info
+    const { password, ...others } = user._doc
+    res.status(200).json({ others })
+
+    //if user not found
+  } catch (error) {
+    res.status(500).json('user not found')
+  }
+})
 
 //GET ALL USERS
+router.get('/', async (req, res) => {
+  //query
+  const query = req.query.new //fetching new user only
+  //only admin can see all users
+  if (req.user.isAdmin=true) {
+    try {
+      const users = query ? await User.find().limit(5) : await User.find()
+
+      res.status(200).json(users)
+
+      //if user not found
+    } catch (error) {
+      res.status(500).json('user not found')
+    }
+  } else {
+    res.status(403).json('you are not allowed to see all users')
+  }
+})
 
 //GET USER STATISTICS
 
