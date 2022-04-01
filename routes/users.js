@@ -3,8 +3,9 @@ const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const verify = require('../verifyToken')
 
+
 //UPDATE USER
-router.put('/:id',verify, async (req, res) => {
+router.put('/:id', verify, async (req, res) => {
   //we will not verify by id instead we wiil use the token to verify the user
   //      || means or
 

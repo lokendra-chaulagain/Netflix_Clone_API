@@ -2,8 +2,7 @@ const router = require('express').Router() //Router method
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const verify = require('../verifyToken')
-const dotenv = require('dotenv').config()
+const JWT_SECRET = process.env.JWT_SECRET
 
 //REGISTER
 router.post('/register', async (req, res) => {
@@ -53,14 +52,13 @@ router.post('/login', async (req, res) => {
 
     //if password is match create a token//it will hide this info into the token------
     const accessToken = jwt.sign(
-      { _id: user._id, isAdmin: user.isAdmin },
-
+      { id: user.id, isAdmin: user.isAdmin },
       // process.env.TOKEN_SECRET,
-      process.env.SECRET,
-      
+      JWT_SECRET,
+
       { expiresIn: '10d' }, //after this days the token will be expired so we should login again
     )
-    //------------------------------------------------------------------------
+    
 
     //things that shouldnot be visible to the user
     const { password, ...others } = user._doc //password private other show to the user
