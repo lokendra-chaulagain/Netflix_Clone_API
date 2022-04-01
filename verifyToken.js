@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-
+const  dotenv = require('dotenv').config()
 function verify(req, res, next) {
   const authHeader = req.headers.token
 
@@ -8,7 +8,7 @@ function verify(req, res, next) {
     const token = authHeader.split(' ')[1]
 
     //now we have a token lets verify it
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.SECRET, (err, user) => {
       if (err) {
         return res.status(403).json({ msg: 'Invalid token' })
       }
