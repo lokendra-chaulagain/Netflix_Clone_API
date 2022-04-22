@@ -46,14 +46,14 @@ router.delete('/:id', verify, async (req, res) => {
     try {
       //delete the user
       await User.findByIdAndDelete(req.params.id)
-      res.status(200).json('User has been deleted successfully' )
+      res.status(200).json('User has been deleted successfully')
 
       //if error occurs catch it
     } catch (error) {
       res.status(500).json({ error })
     }
   } else {
-    res.status(403).json('you can only delete your account' )
+    res.status(403).json('you can only delete your account')
   }
 })
 
@@ -82,7 +82,7 @@ router.get('/', verify, async (req, res) => {
   //only admin can see all users
   if (req.user.isAdmin = true) {
     try {
-      const users = query ? await User.find().sort({_id:-1}).limit(2) : await User.find()
+      const users = query ? await User.find().sort({ _id: -1 }).limit(2) : await User.find()
 
       res.status(200).json(users)
 
@@ -96,6 +96,55 @@ router.get('/', verify, async (req, res) => {
 })
 
 
-//GET USER STATISTICS
+//GET USER STATISTICS//total user per month
+router.get("/stats", async (req, res) => {
+  const today = new Date()
+  const lastYear = today.setFullYear(today.setFullYear() - 1)
+
+  const monthsArray = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ]
+
+  try {
+    const data = await User.aggregate([
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+        }
+      }
+      , {
+        $group: {
+          _id: "$month",
+          total: { $sum: 1 }
+        }
+      }
+    ])
+    res.status(200).json(data)
+
+  } catch (error) {
+    res.status(500).json(error)
+
+  }
+
+})
+
+
+
+
+
+
+
+
 
 module.exports = router
