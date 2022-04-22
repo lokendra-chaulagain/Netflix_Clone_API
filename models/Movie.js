@@ -7,7 +7,7 @@ const MovieSchema = new mongoose.Schema({
     unique: true,
   },
 
-  description: {
+  desc: {
     type: String,
   },
 
@@ -47,7 +47,6 @@ const MovieSchema = new mongoose.Schema({
 
   duration: {
     type: Number,
-    required: true,
     trim: true,
   },
 

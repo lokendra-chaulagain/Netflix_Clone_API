@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv').config() 
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/users')
+const movieRoute = require('./routes/movies')
 
 
 //MongoDB connection
@@ -21,6 +22,7 @@ mongoose
 app.use(express.json()) //accept json data
 app.use('/api/auth/', authRoute)
 app.use('/api/users/', userRoute)
+app.use('/api/movies/', movieRoute)
 
 
 //app listening on port
