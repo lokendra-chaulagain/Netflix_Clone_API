@@ -5,13 +5,10 @@ const MovieSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    trim: true,
   },
 
   description: {
     type: String,
-    required: true,
-    trim: true,
   },
 
   img: {
@@ -21,10 +18,9 @@ const MovieSchema = new mongoose.Schema({
 
   imgTitle: {
     type: String,
-    required: true,
   },
 
-  yhumbnailIMg: {
+  thumbnailIMg: {
     type: String,
     default: '',
   },
@@ -36,22 +32,17 @@ const MovieSchema = new mongoose.Schema({
   video: {
     type: String,
   },
+
   genre: {
     type: String,
-    required: true,
-    trim: true,
   },
 
   year: {
     type: Number,
-    required: true,
-    trim: true,
   },
 
   rating: {
     type: Number,
-    required: true,
-    trim: true,
   },
 
   duration: {
@@ -62,14 +53,13 @@ const MovieSchema = new mongoose.Schema({
 
   ageLimit: {
     type: Number,
-    required: true,
-    trim: true,
   },
 
   isSeries: {
     type: Boolean,
     default: false,
   },
+  
 })
 
 module.exports = mongoose.model('Movie', MovieSchema)

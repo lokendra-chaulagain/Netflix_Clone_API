@@ -9,17 +9,14 @@ const ListSchema = new mongoose.Schema({
 
   type: {
     type: String,
-    required: true,
   },
 
   genre: {
     type: String,
-    required: true,
   },
 
-  context: {
+  content: {
     type: Array,
-    required: true,
   },
 })
 
