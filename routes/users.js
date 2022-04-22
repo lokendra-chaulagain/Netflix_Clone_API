@@ -100,7 +100,6 @@ router.get('/', verify, async (req, res) => {
 router.get("/stats", async (req, res) => {
   const today = new Date()
   const lastYear = today.setFullYear(today.setFullYear() - 1)
-
   const monthsArray = [
     "January",
     "February",
@@ -123,20 +122,12 @@ router.get("/stats", async (req, res) => {
           month: { $month: "$createdAt" },
         }
       }
-      , {
-        $group: {
-          _id: "$month",
-          total: { $sum: 1 }
-        }
-      }
+      , { $group: { _id: "$month", total: { $sum: 1 } } }
     ])
     res.status(200).json(data)
-
   } catch (error) {
     res.status(500).json(error)
-
   }
-
 })
 
 module.exports = router
