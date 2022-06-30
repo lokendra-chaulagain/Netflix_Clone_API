@@ -35,7 +35,7 @@ router.delete('/:id', verify, async (req, res) => {
 })
 
 
-//GET ALL LISTS
+//GET ANY RANDOM LIST
 router.get('/', verify, async (req, res) => {
     const typeQuery = req.query.type
     const genreQuery = req.query.genre
@@ -55,12 +55,10 @@ router.get('/', verify, async (req, res) => {
                 ])
             }
         } else { list = await List.aggregate([{ $sample: { size: 10 } }]) }
-
         res.status(200).json(list)
     } catch (error) {
         res.status(500).json(error)
     }
-
 })
 
 module.exports = router
