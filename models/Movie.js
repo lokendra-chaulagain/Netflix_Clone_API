@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const MovieSchema = new mongoose.Schema({
   title: {
@@ -9,20 +9,21 @@ const MovieSchema = new mongoose.Schema({
 
   desc: {
     type: String,
+    required: true,
   },
 
   img: {
     type: String,
-    default: '',
+    default: "",
   },
 
   imgTitle: {
     type: String,
   },
 
-  thumbnailIMg: {
+  imgSm: {
     type: String,
-    default: '',
+    default: "",
   },
 
   trailer: {
@@ -35,6 +36,21 @@ const MovieSchema = new mongoose.Schema({
 
   genre: {
     type: String,
+    required: true,
+    enum: [
+      "Action",
+      "Adventure",
+      "Animation",
+      "Comedy",
+      "Crime",
+      "Documentary",
+      "Drama",
+      "Horror",
+      "Romance",
+      "Science Fiction",
+      "Thriller",
+      "Western",
+    ],
   },
 
   year: {
@@ -52,13 +68,14 @@ const MovieSchema = new mongoose.Schema({
 
   ageLimit: {
     type: Number,
+    required: true,
   },
 
-  isSeries: {
-    type: Boolean,
-    default: false,
+  category: {
+    type: String,
+    required: true,
+    enum: ["Movie", "Series"],
   },
-  
-})
+});
 
-module.exports = mongoose.model('Movie', MovieSchema)
+module.exports = mongoose.model("Movie", MovieSchema);
