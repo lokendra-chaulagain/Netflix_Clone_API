@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const Movie = require("../models/Movie");
-const verify = require("../verifyToken");
 
 //Create
-router.post("/create/", async (req, res) => {
+router.post("/create", async (req, res) => {
   const newMovie = new Movie(req.body);
   try {
     const savedMovie = await newMovie.save();
@@ -38,7 +37,7 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 //Get a movie
-router.get("/get/:id", verify, async (req, res) => {
+router.get("/get/:id", async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id);
     res.status(200).json(movie);
@@ -48,16 +47,12 @@ router.get("/get/:id", verify, async (req, res) => {
 });
 
 //GET all movies
-router.get("/", async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      const movies = await Movie.find();
-      res.status(200).json(movies);
-    } catch (error) {
-      res.status(500).json(error);
-    }
-  } else {
-    res.status(403).json("You are not allowed !");
+router.get("/all", async (req, res) => {
+  try {
+    const movies = await Movie.find();
+    res.status(200).json(movies);
+  } catch (error) {
+    res.status(500).json(error);
   }
 });
 
