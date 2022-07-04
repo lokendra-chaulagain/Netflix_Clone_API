@@ -4,7 +4,6 @@ const MovieSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
 
   desc: {
@@ -12,69 +11,59 @@ const MovieSchema = new mongoose.Schema({
     required: true,
   },
 
-  img: {
+  thumbnail: {
     type: String,
     default: "",
-  },
-
-  imgTitle: {
-    type: String,
-  },
-
-  imgSm: {
-    type: String,
-    default: "",
+    required: true,
   },
 
   trailer: {
     type: String,
+    default: "",
+    required: true,
   },
 
   video: {
     type: String,
+    default: "",
+    required: true,
   },
 
   genre: {
     type: String,
     required: true,
     enum: [
-      "Action",
       "Adventure",
       "Animation",
-      "Comedy",
       "Crime",
       "Documentary",
-      "Drama",
       "Horror",
       "Romance",
-      "Science Fiction",
+      "Science-Fiction",
       "Thriller",
-      "Western",
     ],
   },
 
-  year: {
+  releasedYear: {
     type: Number,
-  },
-
-  rating: {
-    type: Number,
+    required: true,
   },
 
   duration: {
-    type: Number,
-    trim: true,
+    type: String,
+    required: true,
   },
 
   ageLimit: {
-    type: Number,
+    type: String,
     required: true,
+    enum: ["16+", "18+", "Everyone"],
   },
 
   category: {
     type: String,
     required: true,
-    enum: ["Movie", "Series"],
+    enum: ["movies", "series", "kids"],
   },
 });
 
