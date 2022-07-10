@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Movie = require("../models/Movie");
+const { verifyAdmin } = require("../utils/verifyToken");
 
 //Create
-router.post("/create", async (req, res) => {
+router.post("/create",verifyAdmin, async (req, res) => {
   const newMovie = new Movie(req.body);
   try {
     const savedMovie = await newMovie.save();
@@ -13,7 +14,7 @@ router.post("/create", async (req, res) => {
 });
 
 //Update
-router.put("/update/:id", async (req, res) => {
+router.put("/update/:id",verifyAdmin, async (req, res) => {
   try {
     const updatedMovie = await Movie.findByIdAndUpdate(
       req.params.id,
@@ -27,7 +28,7 @@ router.put("/update/:id", async (req, res) => {
 });
 
 //delete
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id",verifyAdmin, async (req, res) => {
   try {
     await Movie.findByIdAndDelete(req.params.id);
     res.status(200).json("Movie has been deleted successfully");
@@ -70,6 +71,40 @@ router.get("/genre/:genre", async (req, res) => {
 router.get("/category/:category", async (req, res) => {
   try {
     const movies = await Movie.find({ category: req.params.category });
+    res.status(200).json(movies);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+//Search movies by title work for both uppercase and lowercase
+router.get("/search/:title", async (req, res) => {
+  try {
+    const movies = await Movie.find({ title: { $regex: req.params.title } });
+    res.status(200).json(movies);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+
+
+//Latest
+router.get("/latest", async (req, res) => {
+  try {
+    const movies = await Movie.find().sort({ createdAt: -1 }).limit(20);
+    res.status(200).json(movies);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+});
+
+
+
+//Latest5
+router.get("/latest5", async (req, res) => {
+  try {
+    const movies = await Movie.find().sort({ createdAt: -1 }).limit(5);
     res.status(200).json(movies);
   } catch (error) {
     res.status(500).json(error);
