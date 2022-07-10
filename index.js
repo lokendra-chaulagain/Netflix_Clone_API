@@ -7,7 +7,6 @@ const userRoute = require("./routes/users");
 const movieRoute = require("./routes/movies");
 const cookieParser = require("cookie-parser");
 
-
 app.use(express.json());
 //MongoDB connection
 mongoose
@@ -37,10 +36,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-
 //app listening on port
 app.listen(5000, () => {
   console.log("Server Running at port 5000!");
 });
-
-
